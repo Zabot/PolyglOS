@@ -1,0 +1,6 @@
+# Ignore swapfile
+*.sw[nop]
+
+# Ignore object files and disk images
+*.o
+*.img
