@@ -1,9 +1,10 @@
-all: mbr.img
+all: mbr.o
 
-mbr.o: mbr.s print.s gdt.s
+OBJS = bootloader.o utils/print.o
 
-mbr.img: mbr.ld mbr.o
-	ld -T mbr.ld
+mbr.o: bootloader.ld ${OBJS}
+	ld -T bootloader.ld ${OBJS}
 
 clean:
-	rm -f *.o *.img
+	rm -f *.o
+	rm -f utils/*.o
