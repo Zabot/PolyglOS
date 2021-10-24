@@ -19,7 +19,7 @@ boot:
   mov %ax, %ds
 
   # Initialize the stack and current frame
-  mov $0x7C00, %sp
+  mov $stack_bottom, %sp
   mov %sp, %bp
 
   # Done with initialization, turn interrupts back on and jump to the start of
