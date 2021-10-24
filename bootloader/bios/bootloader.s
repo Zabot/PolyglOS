@@ -35,6 +35,16 @@ main:
   mov $initalized_string, %si
   call print_string
 
+  call open_fat
+  call load_kernel
+
+  # Read the first word where the kernel was loaded.
+  mov $s_kernel, %ax
+  mov %ax, %gs
+  mov $0, %bx
+  mov %gs:(%bx), %dx
+  call print_hex
+
   # Disable interrupts to halt forever
   cli
   hlt

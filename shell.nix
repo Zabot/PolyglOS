@@ -4,5 +4,6 @@ pkgs.mkShell {
     pkgs.gcc
     pkgs.gnumake
     pkgs.qemu_kvm
+    pkgs.mtools
   ];
 }

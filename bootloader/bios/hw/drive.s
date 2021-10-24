@@ -52,7 +52,7 @@ lba_unsupported:
 .endif
 
 read_failed:
-.ifdef DEBUG
+.ifdef DEBUG_DISK
   mov %ah, %dl
   mov $sector_read_error, %si
   call print_string
@@ -62,7 +62,7 @@ read_failed:
   cli
   hlt
 
-.ifdef DEBUG
+.ifdef DEBUG_DISK
   sector_read_error: .asciz "Failed to read sectors: "
   sector_debug_msg: .asciz "Reading sector\r\n"
 .endif
