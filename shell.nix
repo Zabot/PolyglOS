@@ -1,7 +1,10 @@
-{ pkgs ? import <nixpkgs> {} }:
-pkgs.mkShell {
+{
+  pkgs ? import <nixpkgs> {},
+  i686 ? import <nixpkgs> { crossSystem.config = "i686-elf"; }
+}:
+
+i686.mkShell {
   nativeBuildInputs = [
-    pkgs.gcc
     pkgs.gnumake
     pkgs.qemu_kvm
     pkgs.mtools

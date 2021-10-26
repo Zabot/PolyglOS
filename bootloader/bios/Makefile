@@ -10,10 +10,10 @@ OBJS = bootloader.o \
 ASFLAGS = --defsym DEBUG=1
 
 .s.o:
-	as ${ASFLAGS} -o $@ $<
+	${AS} ${ASFLAGS} -o $@ $<
 
 mbr.o: bootloader.ld ${OBJS}
-	ld -T bootloader.ld -o mbr.o ${OBJS}
+	${LD} -T bootloader.ld -o mbr.o ${OBJS}
 
 # Kernel is just 4 random bytes for now so we can verify if we loaded it
 # correctly
