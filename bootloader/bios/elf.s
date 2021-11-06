@@ -6,19 +6,19 @@
 .global load_elf
 load_elf:
   xor %bx, %bx
+
+.ifdef VALIDATE_ELF
   xor %si, %si
 
-  /*mov $4, %cx*/
-  /*mov $elf_magic, %di*/
-  /*repe cmpsb*/
-  /*je valid_elf*/
+  mov $4, %cx
+  mov $elf_magic, %di
+  repe cmpsb
+  je valid_elf
 
-  /*# TODO ELF is invalid*/
-  /*mov %bx, %ds*/
-  /*mov $invalid_elf, %dx*/
-  /*call print_string*/
-  /*cli*/
-  /*hlt*/
+  # ELF is invalid
+  mov $invalid_elf, %dx
+  call print_string
+.endif
 
 valid_elf:
   mov %ds:0x2A(%bx), %ax # How big is a segment table entry
@@ -61,6 +61,8 @@ invalid_elf:
   .asciz "Invalid ELF\r\n"
 .endif
 
+.ifdef VALIDATE_ELF
 elf_magic:
   .byte 0x7F
   .ascii "ELF"
+.endif

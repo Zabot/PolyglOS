@@ -32,8 +32,10 @@ boot:
 # - Setup the GDT
 # - Enable protected mode
 main:
+.ifdef DEBUG
   mov $initalized_string, %si
   call print_string
+.endif
 
   call open_fat
   call load_kernel
@@ -56,4 +58,6 @@ main:
   # Enter 32 bit mode and jump to kernel main
   call enter_protected
 
+.ifdef DEBUG
 initalized_string: .asciz "Initialized bootloader!\r\n"
+.endif

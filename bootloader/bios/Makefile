@@ -6,10 +6,10 @@ OBJS = bootloader.o \
        protected/enter_protected.o \
        protected/gdt.o \
        protected/protected_init.o \
-       utils/print.o
 
 ifeq (${DEBUG}, 1)
-OBJS += utils/print_hex.o
+OBJS += utils/print.o \
+        utils/print_hex.o
 ASFLAGS = --defsym DEBUG=1
 endif
 
