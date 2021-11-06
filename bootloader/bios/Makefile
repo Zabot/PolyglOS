@@ -1,5 +1,3 @@
-all: mbr.o
-
 OBJS = bootloader.o \
        elf.o \
        fat/fat.o \
@@ -8,14 +6,17 @@ OBJS = bootloader.o \
        protected/enter_protected.o \
        protected/gdt.o \
        protected/protected_init.o \
-       utils/print.o \
-       utils/print_hex.o
+       utils/print.o
 
+ifeq (${DEBUG}, 1)
+OBJS += utils/print_hex.o
 ASFLAGS = --defsym DEBUG=1
+endif
 
 mbr.o: bootloader.ld ${OBJS}
-	${LD} -T bootloader.ld -o mbr.o ${OBJS}
+	${LD} -T $< -o $@ ${OBJS}
 
+.PHONY: clean
 clean:
 	rm -f *.o
 	rm -f fat/*.o

@@ -2,9 +2,10 @@ OBJS = kernel.o
 
 CFLAGS = -ffreestanding
 
-kernel.elf: ${OBJS} kernel.ld
-	${LD} -T kernel.ld -o kernel.elf ${OBJS}
+kernel.elf: kernel.ld ${OBJS}
+	${LD} -T $< -o $@ ${OBJS}
 
+.PHONY: clean
 clean:
 	rm -f *.o
 	rm -f *.elf
