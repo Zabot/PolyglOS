@@ -3,4 +3,5 @@
 
 # Ignore object files and disk images
 *.o
+*.elf
 *.img
