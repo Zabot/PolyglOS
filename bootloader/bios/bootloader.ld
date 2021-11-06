@@ -38,6 +38,8 @@ s_kernel = ORIGIN(kernel) / 0x10;
 m_protected = ORIGIN(protected);
 s_protected = ORIGIN(protected) / 0x10;
 
+m_vga = ORIGIN(vga);
+
 startOfFAT         = ORIGIN(globals) + 0x00;
 startOfRoot        = ORIGIN(globals) + 0x02;
 startOfData        = ORIGIN(globals) + 0x04;

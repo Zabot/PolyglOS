@@ -53,18 +53,7 @@ main:
 
   # TODO Load other kernel executables into the same address space
 
-  # Read the first word where the kernel was loaded.
-  xor %bx, %bx
-  mov $s_protected, %ax
-  mov %ax, %es
-  mov %es:(%bx), %dx
-
-  mov $0, %ax
-  mov %ax, %ds
-  call print_hex
-
-  # Disable interrupts to halt forever
-  cli
-  hlt
+  # Enter 32 bit mode and jump to kernel main
+  call enter_protected
 
 initalized_string: .asciz "Initialized bootloader!\r\n"

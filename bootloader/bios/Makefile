@@ -6,7 +6,10 @@ OBJS = bootloader.o \
        hw/drive.o \
        utils/print.o \
        utils/print_hex.o \
-       elf.o
+       elf.o \
+       protected/enter_protected.o \
+       protected/gdt.o \
+       protected/protected_init.o
 
 ASFLAGS = --defsym DEBUG=1
 
