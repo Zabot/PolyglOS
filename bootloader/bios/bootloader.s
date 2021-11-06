@@ -38,11 +38,29 @@ main:
   call open_fat
   call load_kernel
 
-  # Read the first word where the kernel was loaded.
+  # Set the data segment to the start of the elf
+  push %ds
   mov $s_kernel, %ax
-  mov %ax, %gs
-  mov $0, %bx
-  mov %gs:(%bx), %dx
+  mov %ax, %ds
+
+  # Set the extra segment to the protected segment
+  mov $s_protected, %ax
+  mov %ax, %es
+
+  # Load the kernel executable
+  call load_elf
+  pop %ds
+
+  # TODO Load other kernel executables into the same address space
+
+  # Read the first word where the kernel was loaded.
+  xor %bx, %bx
+  mov $s_protected, %ax
+  mov %ax, %es
+  mov %es:(%bx), %dx
+
+  mov $0, %ax
+  mov %ax, %ds
   call print_hex
 
   # Disable interrupts to halt forever

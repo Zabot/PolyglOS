@@ -52,6 +52,7 @@ load_file:
 
     # Calculate the first sector of the cluster in %cx
     sub $2, %ax               # There are two sectors at the start of the FAT that don't have data
+
     # TODO This multiplication is always by a power of 2, so we could save some instructions by doing
     # this math directly in cx with a shift
     imulb (sectorsPerCluster) # Calculate how many sectors past the start of the section this cluster is

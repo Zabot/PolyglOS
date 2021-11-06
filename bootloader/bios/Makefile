@@ -5,7 +5,8 @@ OBJS = bootloader.o \
        fat/load.o \
        hw/drive.o \
        utils/print.o \
-       utils/print_hex.o
+       utils/print_hex.o \
+       elf.o
 
 ASFLAGS = --defsym DEBUG=1
 
@@ -15,18 +16,11 @@ ASFLAGS = --defsym DEBUG=1
 mbr.o: bootloader.ld ${OBJS}
 	${LD} -T bootloader.ld -o mbr.o ${OBJS}
 
-# Kernel is just 4 random bytes for now so we can verify if we loaded it
-# correctly
-kernel:
-	dd if=/dev/urandom of=kernel bs=1 count=4
-	dd if=/dev/zero of=kernel bs=1024 count=15 seek=1
-
-# Create a 32MiB FAT16 partition and copy the 'kernel' onto it
-partition.img: kernel
+# Create a 32MiB FAT16 partition and copy the kernel onto it
+partition.img: kernel.elf
 	dd if=/dev/zero of=partition.img bs=512 count=64k
 	mkfs.fat -F 16 -n POLYGLOS -f 2 partition.img
-	mcopy -i partition.img kernel ::/kernel.not
-	mcopy -i partition.img kernel ::/kernel.bin
+	mcopy -i partition.img kernel.elf ::/kernel.elf
 
 # Combine our partition with the MBR
 zos.img: mbr.o partition.img
@@ -35,7 +29,7 @@ zos.img: mbr.o partition.img
 	dd conv=notrunc if=partition.img of=zos.img seek=1 bs=512 count=64k
 
 clean:
-	rm -f kernel
+	rm -f kernel.elf
 	rm -f *.o *.img
 	rm -f fat/*.o
 	rm -f hw/*.o

@@ -106,6 +106,7 @@ open_fat:
 
 # Precondition: The FAT is loaded into memory at address %fs:0
 #               The root directory is loaded into memory at %di:0
+# Loads the kernel into memory at s_kernel:0
 .global load_kernel
 load_kernel:
   # Find the kernel in the root directory and load it to memory
@@ -121,7 +122,7 @@ load_kernel:
 
   ret
 
-kernel_file: .ascii "KERNEL  BIN"
+kernel_file: .ascii "KERNEL  ELF"
 
 .ifdef DEBUG_FAT
 read_vbr: .asciz "Read VBR\r\n"
