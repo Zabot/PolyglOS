@@ -33,6 +33,17 @@ read_sector:
   movw %di, 6(%si)  # Set the destination segment
   movw %cx, 8(%si)  # Set the first sector to read
 
+.ifdef DEBUG_DISK
+  pusha
+  mov $sector_debug_msg, %si
+  call print_string
+  mov %cx, %dx
+  call print_hex
+  mov %di, %dx
+  call print_hex
+  popa
+.endif
+
   # This BIOS call also uses the offset of the packet in %si
   mov $0x42, %ah
   int $0x13
@@ -64,7 +75,7 @@ read_failed:
 
 .ifdef DEBUG_DISK
   sector_read_error: .asciz "Failed to read sectors: "
-  sector_debug_msg: .asciz "Reading sector\r\n"
+  sector_debug_msg: .asciz "Reading sector "
 .endif
 
 # TODO If we wanted to save some bytes, we could generate this packet
