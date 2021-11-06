@@ -52,6 +52,9 @@ SECTIONS {
     /* This section contains all of the input */
     *(*)
 
+    /* Save room for a partition table */
+    . = 0x1BE;
+
     /* Set the boot signature */
     . = 0x1FE;
     SHORT(0xAA55)
