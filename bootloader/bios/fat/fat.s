@@ -32,7 +32,7 @@ open_fat:
   # How many sectors per cluster
   mov 0x0d(%bx), %al
   mov %al, (sectorsPerCluster)
-  shl $4, %ax # Shift left 4 multiplies by the size of a sector (0x200), and then divides by the size of a segment (0x10)
+  shl $5, %ax # Shift left 5 multiplies by the size of a sector (0x200), and then divides by the size of a segment (0x10)
   mov %ax, (segmentsPerCluster)
 
   # Calculate the start of the FAT
