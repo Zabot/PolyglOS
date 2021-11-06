@@ -8,5 +8,6 @@ i686.mkShell {
     pkgs.gnumake
     pkgs.qemu_kvm
     pkgs.mtools
+    pkgs.parted
   ];
 }
