@@ -12,17 +12,9 @@ protected_init:
   mov %ax, %gs
   mov %ax, %ss
 
-  # Jump to our kernel
   mov $stack_bottom, %ebp
   mov %ebp, %esp
 
-  # Write some stuff to the video buffer
-  mov $m_vga, %ebx
-  write_video:
-    mov $0x07, %ah
-    mov $'W', %al
-    add $2, %ebx
-    mov %ax, (%ebx)
-    jmp write_video
-
+  # Jump to our kernel
+  call m_protected
   hlt
