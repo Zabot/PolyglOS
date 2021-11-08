@@ -1,4 +1,6 @@
-OBJS = kernel.o
+OBJS = kernel.o \
+       print.o \
+       format.o
 
 CFLAGS = -ffreestanding
 
