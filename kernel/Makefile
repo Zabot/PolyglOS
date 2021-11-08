@@ -1,13 +1,13 @@
-OBJS = kernel.o \
-       print.o \
-       format.o
+OBJS = src/kernel.o \
+       src/print.o \
+       src/format.o
 
-CFLAGS = -ffreestanding
+CFLAGS = -ffreestanding -Iinclude
 
 kernel.elf: kernel.ld ${OBJS}
 	${LD} -T $< -o $@ ${OBJS}
 
 .PHONY: clean
 clean:
-	rm -f *.o
+	rm -f src/*.o
 	rm -f *.elf
