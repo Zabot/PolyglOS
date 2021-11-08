@@ -8,8 +8,8 @@ OBJS = bootloader.o \
        protected/protected_init.o \
 
 ifeq (${DEBUG}, 1)
-OBJS += utils/print.o \
-        utils/print_hex.o
+OBJS += debug/print.o \
+        debug/print_hex.o
 ASFLAGS = --defsym DEBUG=1
 endif
 
@@ -22,4 +22,4 @@ clean:
 	rm -f fat/*.o
 	rm -f hw/*.o
 	rm -f protected/*.o
-	rm -f utils/*.o
+	rm -f debug/*.o
