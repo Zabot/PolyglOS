@@ -2,11 +2,8 @@
 
 #include <stdint.h>
 
-void outb(uint16_t port, uint8_t value)
-{
-      __asm("outb %b0, %w1"
-                  :: "a"(value), "d"(port));
-}
+#include "port_io.h"
+
 
 void setCursor(int cursor) {
   outb(0x3D4, 0x0F);
