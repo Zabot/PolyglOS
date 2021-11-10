@@ -8,17 +8,21 @@
 int itoa(int integer, char* buffer, int base) {
   const char* digits = "0123456789ABCDEF";
 
-  int i = 0;
-  char reversed[12]; // a 32bit number in octal is 11 digits, plus one for -
   char negative = 0;
   if (integer < 0) {
     negative = 1;
     integer = -integer;
   }
 
-  while (integer != 0) {
-    reversed[i++] = digits[integer % base];
-    integer /= base;
+  int i = 0;
+  char reversed[32]; // Big enough to dump 32 bit numbers in binary
+  if (integer == 0) {
+    reversed[i++] = digits[0];
+  } else {
+    while (integer != 0) {
+      reversed[i++] = digits[integer % base];
+      integer /= base;
+    }
   }
 
   if (negative) {
@@ -45,6 +49,9 @@ void printf(const char* fstring, ...) {
     if (fstring[i] == '%') {
       i++;
       switch (fstring[i]) {
+        case 'b':
+          o += itoa(va_arg(args, int), buffer + o, 2);
+          break;
         case 'x':
           o += itoa(va_arg(args, int), buffer + o, 16);
           break;
@@ -58,6 +65,7 @@ void printf(const char* fstring, ...) {
     }
     i++;
   }
+  buffer[o] = '\0';
 
   print(buffer);
 }
