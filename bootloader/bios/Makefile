@@ -3,6 +3,7 @@ OBJS = bootloader.o \
        fat/fat.o \
        fat/load.o \
        hw/drive.o \
+       hw/memory.o \
        protected/enter_protected.o \
        protected/gdt.o \
        protected/protected_init.o \

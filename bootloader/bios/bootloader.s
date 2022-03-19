@@ -37,6 +37,8 @@ main:
   call print_string
 .endif
 
+  call probe_memory
+
   call open_fat
   call load_kernel
 

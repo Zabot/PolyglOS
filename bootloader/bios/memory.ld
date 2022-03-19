@@ -47,3 +47,5 @@ sectorsPerCluster  = ORIGIN(globals) + 0x06;
 segmentsPerCluster = ORIGIN(globals) + 0x08;
 segmentsPerCluster = ORIGIN(globals) + 0x0a;
 entryPoint         = ORIGIN(globals) + 0x0c;
+memoryMapLength    = ORIGIN(globals) + 0x0d;
+memoryMap          = ORIGIN(globals) + 0x10;
