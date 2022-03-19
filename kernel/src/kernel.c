@@ -1,7 +1,7 @@
 #include <stdint.h>
 
-#include "format.h"
-#include "print.h"
+#include "io/format.h"
+#include "io/print.h"
 #include "memory.h"
 
 int main() {

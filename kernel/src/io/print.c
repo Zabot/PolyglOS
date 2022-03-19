@@ -1,8 +1,8 @@
-#include "print.h"
+#include "io/print.h"
 
 #include <stdint.h>
 
-#include "port_io.h"
+#include "io/port_io.h"
 
 
 void setCursor(int cursor) {
