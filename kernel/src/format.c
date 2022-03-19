@@ -66,6 +66,8 @@ void printf(const char* fstring, ...) {
     }
     i++;
   }
+
+  va_end(args);
   buffer[o] = '\0';
 
   print(buffer);
