@@ -22,18 +22,24 @@ void clear() {
   setCursor(0);
 }
 
+const int width = 80;
+
+int cursor = 0;
 void print(const char* string) {
   unsigned short *m_vga = (void *)0x000B8000;
 
-  static int cursor = 0;
-
   int i = 0;
   while (string[i] != '\0') {
-    m_vga[cursor + i] = 0x0700 | string[i];
+    switch (string[i]) {
+    case '\n':
+      cursor += width - (cursor % width);
+      break;
+    default:
+      m_vga[cursor] = 0x0700 | string[i];
+      cursor++;
+      break;
+    }
     i++;
   }
-  // Advance the cursor by the length of the string.
-  cursor += i;
-
   setCursor(cursor);
 }
