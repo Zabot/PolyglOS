@@ -1,5 +1,6 @@
 #include "format.h"
 
+#include <stdint.h>
 #include <stdarg.h>
 
 #include "print.h"
@@ -15,7 +16,7 @@ int itoa(int integer, char* buffer, int base) {
   }
 
   int i = 0;
-  char reversed[32]; // Big enough to dump 32 bit numbers in binary
+  char reversed[64]; // Big enough to dump 64 bit numbers in binary
   if (integer == 0) {
     reversed[i++] = digits[0];
   } else {
@@ -53,7 +54,7 @@ void printf(const char* fstring, ...) {
           o += itoa(va_arg(args, int), buffer + o, 2);
           break;
         case 'x':
-          o += itoa(va_arg(args, int), buffer + o, 16);
+          o += itoa(va_arg(args, uint64_t), buffer + o, 16);
           break;
         case 'd':
           o += itoa(va_arg(args, int), buffer + o, 10);

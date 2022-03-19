@@ -2,8 +2,10 @@
 
 #include "format.h"
 #include "print.h"
+#include "memory.h"
 
 int main() {
   clear();
-  printf("Hello world! %d 0x%x", 123, 0x123);
+  printf("Hello world!\n");
+  printMemory();
 }
