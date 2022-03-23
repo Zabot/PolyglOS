@@ -59,6 +59,10 @@ void printf(const char* fstring, ...) {
         case 'd':
           o += itoa(va_arg(args, int), buffer + o, 10);
           break;
+        case 'l':
+          // TODO Implement log format codes properly (%lx, %ld, etc)
+          o += itoa(va_arg(args, uint64_t), buffer + o, 16);
+          break;
       }
     } else {
       buffer[o] = fstring[i];
