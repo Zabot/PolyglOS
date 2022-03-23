@@ -6,6 +6,13 @@
 
 int main() {
   clear();
-  printf("Hello world!\n");
+  printf("Booting PolyglOS...\n");
   printMemory();
+  initalizeFrameBitmap();
+
+  for (int i = 0; i < 300; i++) {
+    int frame = getFrame();
+    if (i % 20 == 0)
+      printf("Memory frames: %d (%x:%x)\n", frame, frame * PAGE_SIZE, frame * PAGE_SIZE + PAGE_SIZE - 1);
+  }
 }
