@@ -10,7 +10,7 @@ int itoa(int integer, char* buffer, int base) {
   const char* digits = "0123456789ABCDEF";
 
   char negative = 0;
-  if (integer < 0) {
+  if (base == 10 && integer < 0) {
     negative = 1;
     integer = -integer;
   }
@@ -51,10 +51,10 @@ void printf(const char* fstring, ...) {
       i++;
       switch (fstring[i]) {
         case 'b':
-          o += itoa(va_arg(args, int), buffer + o, 2);
+          o += itoa(va_arg(args, unsigned int), buffer + o, 2);
           break;
         case 'x':
-          o += itoa(va_arg(args, uint64_t), buffer + o, 16);
+          o += itoa(va_arg(args, unsigned int), buffer + o, 16);
           break;
         case 'd':
           o += itoa(va_arg(args, int), buffer + o, 10);
