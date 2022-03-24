@@ -42,20 +42,30 @@ void initalizeFrameBitmap() {
       max = memoryMap[i].baseAddress + memoryMap[i].length;
   }
   frames = max / PAGE_SIZE;
+  printf("%d memory frames detected\n", frames);
 
   // In order to bootstrap memory managment we need to slap this bitmap
-  // somewhere. Find a suitable chunk of memory
+  // somewhere. Find a suitable chunk of memory in the memory map
   int bitmap_size = frames / WORD_SIZE;
-  // TODO Read through memory map looking for something that has enough memory
-  // Assign a voidpointer to framesInUse
-  framesInUse = (void *)(WORD)memoryMap[3].baseAddress;
+  for (int i = 0; i < mapLength; i++) {
+    // TODO This doesn't handle overlapping memory regions
+    if (memoryMap[i].type == BIOS_MEMORY_TYPE_USABLE) {
+      if (memoryMap[i].length > bitmap_size) {
+        // Set framesInUse to the very end of the last addressable region. Using
+        // the end means we don't have to worry about clobbering anything the
+        // BIOS may have set up in low memory.
+        framesInUse = (void *)(WORD)(memoryMap[i].baseAddress + memoryMap[i].length - bitmap_size);
+      }
+    }
+  }
+
+  printf("Storing memory bitmap at %x\n", framesInUse);
 
   // The frames bitmap is initalized to have no unused frames. Then we loop
   // through the memory map twice. The first time is to free any frames that the
   // memory map reports are usable. The second time is to handle the case of
   // overlapping entries allowing some unusable memory to appear usable by
   // explicitly removing any memory that is unusable.
-  // TODO We need to put this somewhere
   setBitmap(framesInUse, 0, frames, 1);
   for (int b = 0; b < 2; b++) {
     for (int i = 0; i < mapLength; i++) {
