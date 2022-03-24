@@ -95,10 +95,17 @@ void initalizeFrameBitmap() {
   // containing the memory bitmap itself.
 }
 
-int getFrame() {
+int getFrames(int count) {
   for (int f = 0; f < frames; f++) {
-    if (getBitmap(framesInUse, f) == 0) {
-      setBitmap(framesInUse, f, 1, 1);
+    int i;
+    for (i = 0; i < count && f + i < frames; i++) {
+      if (getBitmap(framesInUse, f + i)) {
+        break;
+      }
+    }
+
+    if (i == count) {
+      setBitmap(framesInUse, f, count, 1);
       return f;
     }
   }

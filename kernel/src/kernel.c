@@ -10,9 +10,8 @@ int main() {
   printMemory();
   initalizeFrameBitmap();
 
-  for (int i = 0; i < 300; i++) {
-    int frame = getFrame();
-    if (i % 20 == 0)
-      printf("Memory frames: %d (%x:%x)\n", frame, frame * PAGE_SIZE, frame * PAGE_SIZE + PAGE_SIZE - 1);
+  for (int i = 0; i < 10; i++) {
+    int frame = getFrames(10);
+    printf("Memory frames: %d (%x:%x)\n", frame, frame * PAGE_SIZE, frame * PAGE_SIZE + PAGE_SIZE - 1);
   }
 }
