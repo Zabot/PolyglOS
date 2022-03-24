@@ -2,7 +2,7 @@
 
 #include "io/format.h"
 #include "io/print.h"
-#include "memory.h"
+#include "memory/frames.h"
 
 int main() {
   clear();
