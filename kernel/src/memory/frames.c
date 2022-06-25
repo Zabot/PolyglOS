@@ -1,6 +1,7 @@
 #include "memory/frames.h"
 
 #include <stdint.h>
+#include <stddef.h>
 
 #include "io/format.h"
 #include "bitmap.h"
@@ -95,22 +96,13 @@ void initalizeFrameBitmap() {
   // containing the memory bitmap itself.
 }
 
-int getFrames(int count) {
-  for (int f = 0; f < frames; f++) {
-    int i;
-    for (i = 0; i < count && f + i < frames; i++) {
-      if (getBitmap(framesInUse, f + i)) {
-        break;
-      }
-    }
+// Allocate count frames in the bit and return the address of the first frame
+void *getFrames(int count) {
+  int index = findContigous(framesInUse, count, frames);
+  if (index < 0)
+    return NULL;
 
-    if (i == count) {
-      setBitmap(framesInUse, f, count, 1);
-      return f;
-    }
-  }
-
-  return -1;
+  return (void *)(index * PAGE_SIZE);
 }
 
 void printFrames() {

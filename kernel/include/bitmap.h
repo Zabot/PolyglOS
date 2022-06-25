@@ -16,4 +16,6 @@
 void setBitmap(WORD *map, int start, int length, int value);
 int getBitmap(WORD *map, int index);
 
+int findContigous(WORD *map, int count, int length);
+
 #endif

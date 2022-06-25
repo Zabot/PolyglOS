@@ -5,7 +5,7 @@
 
 void printMemory();
 void initalizeFrameBitmap();
-int getFrames(int count);
+void *getFrames(int count);
 void printFrames();
 
 #endif

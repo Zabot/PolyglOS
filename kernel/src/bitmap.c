@@ -28,3 +28,19 @@ int getBitmap(WORD *map, int index) {
   WORD mask = MASK(index % WORD_SIZE, 1);
   return (map[index / WORD_SIZE] & mask) != 0;
 }
+
+// Find the first set of count contigous bits
+int findContigous(WORD *map, int count, int length) {
+  for (int base = 0; base < length; base++) {
+    int i;
+    for (i = 0; i < count && base + i < length; i++) {
+      if (getBitmap(map, base + i))
+        break;
+    }
+
+    if (i == count)
+      return base;
+  }
+
+  return -1;
+}
