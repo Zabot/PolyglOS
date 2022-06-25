@@ -3,6 +3,7 @@ OBJS = src/kernel.o \
        src/io/print.o \
        src/io/format.o \
        src/memory/frames.o \
+       src/memory/heap.o \
        src/bitmap.o
 
 CFLAGS = -ffreestanding -Iinclude
