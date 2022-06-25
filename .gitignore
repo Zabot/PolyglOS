@@ -3,5 +3,6 @@
 
 # Ignore object files and disk images
 *.o
+*.out
 *.elf
 *.img
