@@ -4,6 +4,9 @@
 
 #include "io/port_io.h"
 
+const int width = 80;
+const int height = 25;
+
 
 void setCursor(int cursor) {
   outb(0x3D4, 0x0F);
@@ -22,7 +25,19 @@ void clear() {
   setCursor(0);
 }
 
-const int width = 80;
+void scrollDown() {
+  unsigned short *m_vga = (void *)0x000B8000;
+
+  for (int row = 0; row < height - 1; row++) {
+    for(int col = 0; col < width; col++) {
+      m_vga[row * width + col] = m_vga[(row + 1) * width + col];
+    }
+  }
+
+  for(int col = 0; col < width; col++) {
+    m_vga[(height-1) * width + col] = 0x0700 | ' ';
+  }
+}
 
 int cursor = 0;
 void print(const char* string) {
@@ -33,6 +48,10 @@ void print(const char* string) {
     switch (string[i]) {
     case '\n':
       cursor += width - (cursor % width);
+      if (cursor / width == height) {
+        scrollDown();
+        cursor -= width;
+      }
       break;
     default:
       m_vga[cursor] = 0x0700 | string[i];
