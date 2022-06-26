@@ -5,6 +5,7 @@
 
 #include "io/format.h"
 #include "bitmap.h"
+#include "config.h"
 
 #define BIOS_MEMORY_TYPE_USABLE 1
 

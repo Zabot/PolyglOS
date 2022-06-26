@@ -4,13 +4,14 @@
 #include "io/print.h"
 #include "memory/frames.h"
 #include "memory/heap.h"
+#include "config.h"
 
 int main() {
   clear();
   printf("Booting PolyglOS...\n");
   printMemory();
   initalizeFrameBitmap();
-  initalizeHeap(4096);
+  initalizeHeap(HEAP_SIZE);
 
   int r = 10;
   int *array = (int *)malloc(r * sizeof(int));

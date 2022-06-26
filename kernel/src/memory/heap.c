@@ -4,8 +4,7 @@
 #include "bitmap.h"
 
 #include "io/format.h"
-
-#define HEAP_BLOCK_SIZE 16
+#include "config.h"
 
 int heapSize;
 WORD *heapBitmap;
