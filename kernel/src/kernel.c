@@ -5,6 +5,7 @@
 #include "memory/frames.h"
 #include "memory/heap.h"
 #include "config.h"
+#include "interrupts/idt.h"
 
 int main() {
   clear();
@@ -31,4 +32,7 @@ int main() {
       }
     }
   }
+
+  installInterrupts();
+  printf("Got to the end\n");
 }

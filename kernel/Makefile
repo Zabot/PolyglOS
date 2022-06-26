@@ -4,6 +4,9 @@ OBJS = src/kernel.o \
        src/io/format.o \
        src/memory/frames.o \
        src/memory/heap.o \
+       src/interrupts/idt.o \
+       src/interrupts/isr.o \
+       src/interrupts/global_isr.o \
        src/bitmap.o
 
 CFLAGS = -ffreestanding -Iinclude
