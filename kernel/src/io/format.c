@@ -38,12 +38,7 @@ int itoa(int integer, char* buffer, int base) {
   return length;
 }
 
-void printf(const char* fstring, ...) {
-  char buffer[MAX_PRINTF_LENGTH];
-
-  va_list args;
-  va_start(args, fstring);
-
+void vsprintf(char* buffer, const char* fstring, va_list args) {
   int o = 0;
   int i = 0;
   while (fstring[i] != '\0') {
@@ -71,8 +66,28 @@ void printf(const char* fstring, ...) {
     i++;
   }
 
-  va_end(args);
   buffer[o] = '\0';
 
+}
+
+void sprintf(char *buffer, const char* fstring, ...) {
+  va_list args;
+  va_start(args, fstring);
+
+  vsprintf(buffer, fstring, args);
+  va_end(args);
+}
+
+void vprintf(const char* fstring, va_list args) {
+  char buffer[MAX_PRINTF_LENGTH];
+  vsprintf(buffer, fstring, args);
   print(buffer);
+}
+
+void printf(const char* fstring, ...) {
+  va_list args;
+  va_start(args, fstring);
+
+  vprintf(fstring, args);
+  va_end(args);
 }
