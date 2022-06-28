@@ -40,8 +40,7 @@ int itoa(int integer, char* buffer, int base) {
 
 void vsprintf(char* buffer, const char* fstring, va_list args) {
   int o = 0;
-  int i = 0;
-  while (fstring[i] != '\0') {
+  for (int i = 0; fstring[i] != '\0'; i++) {
     if (fstring[i] == '%') {
       i++;
       switch (fstring[i]) {
@@ -58,12 +57,20 @@ void vsprintf(char* buffer, const char* fstring, va_list args) {
           // TODO Implement log format codes properly (%lx, %ld, etc)
           o += itoa(va_arg(args, uint64_t), buffer + o, 16);
           break;
+        case 's':
+          {
+            char *s = va_arg(args, char *);
+            for (int ii = 0; s[ii] != 0; ii++) {
+              buffer[o] = s[ii];
+              o++;
+            }
+          }
+          break;
       }
     } else {
       buffer[o] = fstring[i];
       o++;
     }
-    i++;
   }
 
   buffer[o] = '\0';
