@@ -3,7 +3,7 @@
 #include "memory/frames.h"
 #include "bitmap.h"
 
-#include "io/format.h"
+#include "io/log.h"
 #include "config.h"
 
 int heapSize;
@@ -28,14 +28,10 @@ int initalizeHeap(size_t size) {
   setBitmap(heapBitmap, 0, heapSize, 0);
   heap = heapBitmap + bitmapSize;
 
-  printf("Heap initalized:\n"
-      "  Frames: %d\n"
-      "  Usable space: %d bytes\n"
-      "  Start: 0x%x\n",
-      heapFrames,
-      size - bitmapSize,
-      heap
-    );
+  INFO("Heap initalized:");
+  INFO("  Frames: %d", heapFrames);
+  INFO("  Usable space: %d bytes", size - bitmapSize);
+  INFO("  Start: 0x%x", heap);
 }
 
 struct blockHeader {
@@ -55,7 +51,7 @@ void *malloc(size_t size) {
   struct blockHeader *header = heap + (index * HEAP_BLOCK_SIZE);
   header->length = blocks;
 
-  printf("Allocated %d blocks starting at %d\n", header->length, index);
+  INFO("Allocated %d blocks starting at %d", header->length, index);
   return (void*)header + sizeof(struct blockHeader);
 }
 
@@ -63,5 +59,5 @@ void free(void *ptr) {
   struct blockHeader *header = ptr - sizeof(struct blockHeader);
   int index = ((void*)header - heap) / HEAP_BLOCK_SIZE;
   setBitmap(heapBitmap, index, header->length, 0);
-  printf("Freed %d blocks starting at %d\n", header->length, index);
+  INFO("Freed %d blocks starting at %d", header->length, index);
 }

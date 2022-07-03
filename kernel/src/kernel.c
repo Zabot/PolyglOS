@@ -1,15 +1,17 @@
 #include <stdint.h>
 
+#include "io/log.h"
 #include "io/format.h"
 #include "io/print.h"
 #include "memory/frames.h"
 #include "memory/heap.h"
+#include "memory/paging.h"
 #include "config.h"
 #include "interrupts/idt.h"
 
 int main() {
   clear();
-  printf("Booting PolyglOS...\n");
+  INFO("Booting PolyglOS");
   printMemory();
   initalizeFrameBitmap();
   initalizeHeap(HEAP_SIZE);

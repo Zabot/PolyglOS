@@ -5,10 +5,10 @@
 #define LEVEL_WARN 2
 #define LEVEL_ERROR 3
 
-#define INFO(system,...) log(__FILE__, __LINE__, LEVEL_INFO, system, __VA_ARGS__)
-#define WARN(system,...) log(__FILE__, __LINE__, LEVEL_WARN, system, __VA_ARGS__)
-#define ERROR(system,...) log(__FILE__, __LINE__, LEVEL_ERROR, system, __VA_ARGS__)
+#define INFO(...) log(__FILE__, __LINE__, LEVEL_INFO, __VA_ARGS__)
+#define WARN(...) log(__FILE__, __LINE__, LEVEL_WARN, __VA_ARGS__)
+#define ERROR(...) log(__FILE__, __LINE__, LEVEL_ERROR, __VA_ARGS__)
 
-void log(const char* file, int lineno, int level, const char* system, const char* format, ...);
+void log(const char* file, int lineno, int level, const char* format, ...);
 
 #endif

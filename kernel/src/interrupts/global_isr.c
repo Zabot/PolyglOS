@@ -1,7 +1,7 @@
 #include <stdint.h>
 
-#include "io/format.h"
+#include "io/log.h"
 
 void globalISR(uint32_t vector) {
-  printf("Handled an interrupt: %d\n", vector);
+  INFO("Handled an interrupt: %d\n", vector);
 }

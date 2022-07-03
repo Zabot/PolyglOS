@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #include "memory/frames.h"
-#include "io/format.h"
+#include "io/log.h"
 
 #define IDT_SIZE 256
 

@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "io/format.h"
+#include "io/log.h"
 #include "bitmap.h"
 #include "config.h"
 
@@ -26,10 +26,12 @@ extern uint32_t memoryMapLength;
 extern struct MemoryMapEntry memoryMap[];
 
 void printMemory() {
-  printf("System memory map\nStart:Length (Type)\n----------------\n");
+  INFO("System memory map");
+  INFO("Start:Length (Type)");
+  INFO("----------------");
   int mapLength = (memoryMapLength - (uint32_t)(&memoryMap))/24;
   for (int i = 0; i < mapLength; i++) {
-    printf("%l:%l (%d)\n", memoryMap[i].baseAddress, memoryMap[i].baseAddress + memoryMap[i].length - 1, memoryMap[i].type);
+    INFO("%l:%l (%d)", memoryMap[i].baseAddress, memoryMap[i].baseAddress + memoryMap[i].length - 1, memoryMap[i].type);
   }
 }
 
@@ -46,7 +48,7 @@ void initalizeFrameBitmap() {
       max = memoryMap[i].baseAddress + memoryMap[i].length;
   }
   frames = max / PAGE_SIZE;
-  printf("%d memory frames detected\n", frames);
+  INFO("%d memory frames detected", frames);
 
   // In order to bootstrap memory managment we need to slap this bitmap
   // somewhere. Find a suitable chunk of memory in the memory map
@@ -62,13 +64,13 @@ void initalizeFrameBitmap() {
     }
   }
 
-  printf("Storing memory bitmap at %x\n", framesInUse);
+  INFO("Storing memory bitmap at %x", framesInUse);
 
   // The frames bitmap is initalized to have no unused frames. Then we loop
   // through the memory map to free an usable frames
-  printf("Initalizing memory bitmap...\n");
+  INFO("Initalizing memory bitmap...");
   setBitmap(framesInUse, 0, frames, 1);
-  printf("Marking free memory frames...\n");
+  INFO("Marking free memory frames...");
   for (int i = 0; i < mapLength; i++) {
     // Since regions may start and stop off of frame borders, we need to calculate
     // the start and stop frame of each region.
@@ -79,7 +81,7 @@ void initalizeFrameBitmap() {
     // We add an additional frame of padding because the base frame is rounded
     // down, and may therefore contain unusable memory
     if (memoryMap[i].type == BIOS_MEMORY_TYPE_USABLE) {
-      printf("Freeing frames %x to %x...\n", baseFrame, endFrame);
+      INFO("Freeing frames %x to %x...", baseFrame, endFrame);
       setBitmap(framesInUse, baseFrame + 1, length - 1, 0);
     }
   }
@@ -87,7 +89,7 @@ void initalizeFrameBitmap() {
   // Allocate pages for memory bitmap
   int memoryMapStartFrame = (int)framesInUse / PAGE_SIZE;
   int memoryMapFrames  = (bitmap_size / PAGE_SIZE + 1);
-  printf("Reserving frames %x to %x for memory bitmap...\n", memoryMapStartFrame, memoryMapFrames);
+  INFO("Reserving frames %x to %x for memory bitmap...", memoryMapStartFrame, memoryMapFrames);
   setBitmap(framesInUse, memoryMapStartFrame, memoryMapFrames, 1);
 
   // TODO Allocate pages in use by the kernel
@@ -99,17 +101,19 @@ void initalizeFrameBitmap() {
 
 // Allocate count frames in the bit and return the address of the first frame
 void *getFrames(int count) {
+  INFO("Searching for %d contigous frames", count);
   int index = findContigous(framesInUse, count, frames);
+  INFO("Found %d", index);
   if (index < 0)
     return NULL;
 
+  setBitmap(framesInUse, index, count, 1);
   return (void *)(index * PAGE_SIZE);
 }
 
 void printFrames() {
   for (int f = 0; f < frames; f++) {
-    printf("%d", getBitmap(framesInUse, f));
+    INFO("%d", getBitmap(framesInUse, f));
   }
-  printf("\n");
-  printf("Dumped %d frames\n", frames);
+  INFO("Dumped %d frames", frames);
 }
