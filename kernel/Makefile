@@ -5,8 +5,11 @@ OBJS = src/kernel.o \
        src/io/log.o \
        src/memory/frames.o \
        src/memory/heap.o \
+       src/memory/paging.o \
+       src/memory/paging_asm.o \
        src/interrupts/idt.o \
        src/interrupts/isr.o \
+       src/interrupts/isr_pagefault.o \
        src/interrupts/global_isr.o \
        src/bitmap.o
 

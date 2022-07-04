@@ -37,8 +37,8 @@ load_idt:
 	iret
 .endm
 
-ISR 0,divideByZero_ISR
-ISR 13,protectionFault_ISR
-ISR 14,pageFault_ISR
+
+ISR 0x00,divideByZero_ISR
+ISR 0x0D,protectionFault_ISR
 ISR 0x80,osTrap_ISR
 

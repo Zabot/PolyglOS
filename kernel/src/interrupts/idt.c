@@ -40,9 +40,9 @@ int installInterrupts() {
   for (int i = 0; i < IDT_SIZE; i ++)
     idt[i].flags = 0;
 
-  INSTALL_INTERRUPT(0, divideByZero_ISR);
-  INSTALL_INTERRUPT(13, protectionFault_ISR);
-  INSTALL_INTERRUPT(14, pageFault_ISR);
+  INSTALL_INTERRUPT(0x00, divideByZero_ISR);
+  INSTALL_INTERRUPT(0x0D, protectionFault_ISR);
+  INSTALL_INTERRUPT(0x0E, pageFault_ISR);
   INSTALL_INTERRUPT(0x80, osTrap_ISR);
 
   struct idtr *descriptor = base;

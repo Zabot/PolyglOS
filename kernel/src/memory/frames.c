@@ -92,7 +92,9 @@ void initalizeFrameBitmap() {
   INFO("Reserving frames %x to %x for memory bitmap...", memoryMapStartFrame, memoryMapFrames);
   setBitmap(framesInUse, memoryMapStartFrame, memoryMapFrames, 1);
 
-  // TODO Allocate pages in use by the kernel
+  // Allocate pages in use by the kernel
+  setBitmap(framesInUse, 5, 3, 1);
+  setBitmap(framesInUse, 50, 3, 16);
 
   // The memory bitmap now resides in memory at the top of the address space
   // and is initalized with only the frames reserved by the BIOS, and the frames
