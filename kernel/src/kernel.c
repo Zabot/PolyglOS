@@ -9,6 +9,7 @@
 #include "config.h"
 #include "interrupts/idt.h"
 #include "gdt/gdt.h"
+#include "procs/procs.h"
 
 int main() {
   clear();
@@ -33,6 +34,6 @@ int main() {
   uint32_t *unmappedPage = (void*)0xDEADBEEF;
   INFO("should fault: %d", *unmappedPage);
 
-  INFO("Reached end of boot...");
-  while(1);
+  INFO("Starting userspace...");
+  run(1);
 }

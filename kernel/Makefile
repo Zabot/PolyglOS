@@ -15,6 +15,11 @@ OBJS = src/kernel.o \
        src/interrupts/isr_gpfault.o \
        src/interrupts/isr_syscall.o \
        src/interrupts/global_isr.o \
+       src/procs/procs.o \
+       src/procs/enter_userspace.o \
+       src/userspace/userprog.o \
+       src/userspace/libc.o \
+       src/userspace/syscall.o \
        src/bitmap.o
 
 CFLAGS = -ffreestanding -Iinclude
