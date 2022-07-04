@@ -30,6 +30,10 @@ void handlePageFault(void *address, uint32_t errorCode) {
   PANIC("Page faults not handled yet");
 }
 
+void handleGeneralProtectionFault(uint32_t segmentIndex) {
+  PANIC("General protection fault occured: %x", segmentIndex);
+}
+
 void globalISR(uint32_t vector) {
   INFO("Handled an interrupt: %d", vector);
 }

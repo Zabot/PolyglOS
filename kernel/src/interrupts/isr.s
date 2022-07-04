@@ -39,6 +39,5 @@ load_idt:
 
 
 ISR 0x00,divideByZero_ISR
-ISR 0x0D,protectionFault_ISR
 ISR 0x80,osTrap_ISR
 

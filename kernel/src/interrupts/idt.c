@@ -41,7 +41,7 @@ int installInterrupts() {
     idt[i].flags = 0;
 
   INSTALL_INTERRUPT(0x00, divideByZero_ISR);
-  INSTALL_INTERRUPT(0x0D, protectionFault_ISR);
+  INSTALL_INTERRUPT(0x0D, gpFault_ISR);
   INSTALL_INTERRUPT(0x0E, pageFault_ISR);
   INSTALL_INTERRUPT(0x80, osTrap_ISR);
 
