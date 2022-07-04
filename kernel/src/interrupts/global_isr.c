@@ -3,6 +3,13 @@
 #include "io/log.h"
 
 void handlePageFault(void *address, uint32_t errorCode) {
+  if (!(errorCode & 0x0004)) {
+    // We should never be accessing memory addresses that weren't preallocated
+    // in the kernel, so this is an error.
+    PANIC("Page fault while running in kernel mode. "
+          "Something is probably very wrong.");
+  }
+
   ERROR("[Page Fault] %s 0x%x in %s mode"
       "%s"
       "%s"
