@@ -5,15 +5,8 @@
 
 #include "io/print.h"
 
-
-int itoa(int integer, char* buffer, int base) {
+int utoa(unsigned int integer, char* buffer, int base) {
   const char* digits = "0123456789ABCDEF";
-
-  char negative = 0;
-  if (base == 10 && integer < 0) {
-    negative = 1;
-    integer = -integer;
-  }
 
   int i = 0;
   char reversed[64]; // Big enough to dump 64 bit numbers in binary
@@ -26,16 +19,22 @@ int itoa(int integer, char* buffer, int base) {
     }
   }
 
-  if (negative) {
-    reversed[i++] = '-';
-  }
-
   int length = i;
   for (i = 0; i < length; i++) {
     buffer[i] = reversed[length - i - 1];
   }
 
   return length;
+}
+
+int itoa(int integer, char* buffer, int base) {
+  int negative = 0;
+  if (integer < 0) {
+    buffer[0] = '-';
+    integer = -integer;
+  }
+
+  return negative + utoa(integer, buffer + negative, base);
 }
 
 void vsprintf(char* buffer, const char* fstring, va_list args) {
@@ -48,7 +47,7 @@ void vsprintf(char* buffer, const char* fstring, va_list args) {
           o += itoa(va_arg(args, unsigned int), buffer + o, 2);
           break;
         case 'x':
-          o += itoa(va_arg(args, unsigned int), buffer + o, 16);
+          o += utoa(va_arg(args, uint32_t), buffer + o, 16);
           break;
         case 'd':
           o += itoa(va_arg(args, int), buffer + o, 10);
