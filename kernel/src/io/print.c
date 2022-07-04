@@ -48,15 +48,15 @@ void print(const char* string) {
     switch (string[i]) {
     case '\n':
       cursor += width - (cursor % width);
-      if (cursor / width == height) {
-        scrollDown();
-        cursor -= width;
-      }
       break;
     default:
       m_vga[cursor] = 0x0700 | string[i];
       cursor++;
       break;
+    }
+    if (cursor / width == height) {
+      scrollDown();
+      cursor -= width;
     }
     i++;
   }
