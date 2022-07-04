@@ -8,6 +8,7 @@
 #include "memory/paging.h"
 #include "config.h"
 #include "interrupts/idt.h"
+#include "gdt/gdt.h"
 
 int main() {
   clear();
@@ -19,6 +20,9 @@ int main() {
   if(installInterrupts()) {
     PANIC("failed to install interrupts");
   }
+
+  // Update the GDT with a TSS and user mode segments
+  initalizeGDT(1);
 
   if(initPaging()) {
     PANIC("failed to initialize paging");

@@ -1,4 +1,6 @@
 OBJS = src/kernel.o \
+       src/gdt/gdt.o \
+       src/gdt/gdt_asm.o \
        src/io/port_io.o \
        src/io/print.o \
        src/io/format.o \
