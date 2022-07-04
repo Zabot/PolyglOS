@@ -34,6 +34,10 @@ void handleGeneralProtectionFault(uint32_t segmentIndex) {
   PANIC("General protection fault occured: %x", segmentIndex);
 }
 
+void handleSyscall(uint32_t syscall) {
+  INFO("Executed syscall 0x%x", syscall);
+}
+
 void globalISR(uint32_t vector) {
   INFO("Handled an interrupt: %d", vector);
 }

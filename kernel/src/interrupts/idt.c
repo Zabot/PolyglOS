@@ -43,7 +43,8 @@ int installInterrupts() {
   INSTALL_INTERRUPT(0x00, divideByZero_ISR);
   INSTALL_INTERRUPT(0x0D, gpFault_ISR);
   INSTALL_INTERRUPT(0x0E, pageFault_ISR);
-  INSTALL_INTERRUPT(0x80, osTrap_ISR);
+  INSTALL_INTERRUPT(0x80, syscall_ISR);
+  idt[0x80].flags = 0xEE;
 
   struct idtr *descriptor = base;
   descriptor->offset = (uintptr_t)idt;

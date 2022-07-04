@@ -13,9 +13,6 @@ load_idt:
 	mov %ebp, %esp
 	pop %ebp
 
-	# Fire a trap to make sure interrupt handling is working.
-	int $0x80
-
 	ret
 
 .macro isr vec, name
@@ -39,5 +36,4 @@ load_idt:
 
 
 ISR 0x00,divideByZero_ISR
-ISR 0x80,osTrap_ISR
 
