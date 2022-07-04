@@ -23,6 +23,7 @@ load_elf:
 valid_elf:
   mov %ds:0x2A(%bx), %ax # How big is a segment table entry
   mov %ds:0x2C(%bx), %cx # How many segment table entries are there?
+  mov %ds:0x18(%bx), %dx # Entrypoint of process
   mov %ds:0x1C(%bx), %bx # Where does the segment table start
 
   /*mov $0x22(%bx), %ax # Where does the section header start*/
