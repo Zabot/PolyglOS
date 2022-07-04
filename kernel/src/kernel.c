@@ -17,11 +17,11 @@ int main() {
   initalizeHeap(HEAP_SIZE);
 
   if(installInterrupts()) {
-    ERROR("failed to install interrupts");
+    PANIC("failed to install interrupts");
   }
 
   if(initPaging()) {
-    ERROR("failed to initialize paging");
+    PANIC("failed to initialize paging");
   }
 
   // TODO Initalize stack (its still where it was in the bootloader)

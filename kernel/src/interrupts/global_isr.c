@@ -19,7 +19,8 @@ void handlePageFault(void *address, uint32_t errorCode) {
       errorCode & 0x0020 ? "\n  protection key violation" : "",
       errorCode & 0x0040 ? "\n  shadow stack access" : "",
       errorCode & 0x8000 ? "\n  sgx violation" : "");
-  while(1);
+
+  PANIC("Page faults not handled yet");
 }
 
 void globalISR(uint32_t vector) {
