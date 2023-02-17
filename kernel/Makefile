@@ -1,3 +1,5 @@
+all: kernel.elf
+
 OBJS = src/kernel.o \
        src/gdt/gdt.o \
        src/gdt/gdt_asm.o \
@@ -17,17 +19,18 @@ OBJS = src/kernel.o \
        src/interrupts/global_isr.o \
        src/procs/procs.o \
        src/procs/enter_userspace.o \
-       src/userspace/userprog.o \
-       src/userspace/libc.o \
-       src/userspace/syscall.o \
        src/bitmap.o
 
 CFLAGS = -ffreestanding -Iinclude
 
-kernel.elf: kernel.ld ${OBJS}
+hello.bin: ../userspace/hello/hello
+	${OBJCOPY} -I binary -O elf32-i386 $< $@
+
+kernel.elf: kernel.ld hello.bin ${OBJS}
 	${LD} -T $< -o $@ ${OBJS}
 
 .PHONY: clean
 clean:
 	rm -f src/**/*.o
 	rm -f *.elf
+	rm -f *.bin

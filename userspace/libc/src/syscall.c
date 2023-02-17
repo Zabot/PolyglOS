@@ -1,4 +1,4 @@
-#include "userspace/libc.h"
+#include "libc.h"
 
 void do_syscall(unsigned int opcode);
 
