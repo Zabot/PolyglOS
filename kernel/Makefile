@@ -23,14 +23,14 @@ OBJS = src/kernel.o \
 
 CFLAGS = -ffreestanding -Iinclude
 
-hello.bin: ../userspace/hello/hello
-	${OBJCOPY} -I binary -O elf32-i386 $< $@
+hello.ld: ../userspace/hello/hello
+	cat $< | hexdump -v -e '"BYTE(0x" 1/1 "%02X" ")\n"' > $@
 
-kernel.elf: kernel.ld hello.bin ${OBJS}
+kernel.elf: kernel.ld hello.ld ${OBJS}
 	${LD} -T $< -o $@ ${OBJS}
 
 .PHONY: clean
 clean:
 	rm -f src/**/*.o
 	rm -f *.elf
-	rm -f *.bin
+	rm -f hello.ld
