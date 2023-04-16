@@ -9,7 +9,11 @@
 #include "config.h"
 #include "interrupts/idt.h"
 #include "gdt/gdt.h"
-#include "procs/procs.h"
+#include "procs/exec.h"
+
+// user_proc is a pointer to an ELF that is copied into the kernel
+// so we can avoid trying to load it from the filesystem for now.
+void user_proc();
 
 int main() {
   clear();
@@ -29,11 +33,8 @@ int main() {
     PANIC("failed to initialize paging");
   }
 
-  // TODO Initalize stack (its still where it was in the bootloader)
+  INFO("Address of user elf: %x", &user_proc);
+  exec(user_proc);
 
-  uint32_t *unmappedPage = (void*)0xDEADBEEF;
-  INFO("should fault: %d", *unmappedPage);
-
-  INFO("Starting userspace...");
-  run(1);
+  PANIC("end of main");
 }

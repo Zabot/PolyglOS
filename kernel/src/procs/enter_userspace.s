@@ -1,5 +1,5 @@
-.global switch_usermode
-switch_usermode:
+.global switchUsermode
+switchUsermode:
 	# Only argument is the usermode address to jump to
 	mov 4(%esp), %edx
 
@@ -11,8 +11,10 @@ switch_usermode:
 	mov %ax, %fs
 	mov %ax, %gs
 
+	# TODO Move the stack pointer somewhere in user address space
+	mov $0x00FFFFFFF, %eax
+
 	# Construct a stack such that iret returns to the user code segment
-	mov %esp, %eax
 	push $0x23
 	push %eax
 	pushf
