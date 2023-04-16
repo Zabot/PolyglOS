@@ -31,16 +31,18 @@
 #define GDT_INDEX_USER_DATA 4
 #define GDT_INDEX_TSS_BASE 5
 
+const int kernel_stack_size = 4096;
+
 struct __attribute__((packed)) gdt_descriptor {
   uint16_t size;
   uint32_t offset;
 };
 
 struct __attribute__((packed)) tss {
-	uint32_t unused;
+	uint32_t link;
 	uint32_t esp0;
 	uint32_t ss0;
-	uint32_t _unused[22];
+	uint32_t _unused[23];
 };
 
 struct __attribute__((packed)) gdt_entry {
@@ -109,9 +111,9 @@ void initalizeGDT(int cpus) {
     // data segment
     struct tss *t = malloc(sizeof(struct tss));
     t->ss0 = GDT_INDEX_KERNEL_DATA * sizeof(struct gdt_entry);
-    t->esp0 = (uintptr_t)malloc(4096);
-    t->unused = 0;
-    for (int b = 0; b < 22; b++) {
+    uintptr_t stack_bottom = (uintptr_t)malloc(kernel_stack_size);
+    t->esp0 = stack_bottom + kernel_stack_size;
+    for (int b = 0; b < 23; b++) {
       t->_unused[b] = 0;
     }
 
@@ -134,10 +136,13 @@ void initalizeGDT(int cpus) {
   descriptor->size = gdtEntries * sizeof(struct gdt_entry) - 1;
 
   // Load all of the new tables
+  INFO("Loading GDT: %d bytes @ %x", descriptor->size, descriptor->offset);
   load_gdt(descriptor);
   for (int i = 0; i < cpus; i++) {
     // TODO This doesn't actually work with more then one cpu since each load
     // happens on the same CPU.
-    load_tss((GDT_INDEX_TSS_BASE + i) * sizeof(struct gdt_entry));
+    int index = (GDT_INDEX_TSS_BASE + i) * sizeof(struct gdt_entry);
+    INFO("Loading TSS: %x", index);
+    load_tss(index);
   }
 }
