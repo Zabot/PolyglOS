@@ -15,7 +15,6 @@ OBJS = src/kernel.o \
        src/interrupts/idt.o \
        src/interrupts/isr.o \
        src/interrupts/isr_pagefault.o \
-       src/interrupts/isr_gpfault.o \
        src/interrupts/isr_syscall.o \
        src/interrupts/global_isr.o \
        src/procs/exec.o \

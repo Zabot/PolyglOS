@@ -1,14 +1,15 @@
 .global syscall_ISR
 syscall_ISR:
-	# Prepare for the ISR
-	pusha
-	cld
+  pusha
 
-	# Do the call
-	push %eax
-	call handleSyscall
-	pop %eax
+  # Arguments to the syscall are passed in
+  # via eax and ebx. Push them to the stack
+  # so we can read them in c.
+  push %eax
+  push %ebx
+  call handleSyscall
+  pop %ebx
+  pop %eax
 
-	# Return
-	popa
-	iret
+  popa
+  iret
