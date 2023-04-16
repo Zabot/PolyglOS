@@ -1,23 +1,29 @@
 .global pageFault_ISR
 pageFault_ISR:
-	# Error code was pushed onto the stack before the ISR was called
-	pop %eax
+  # Prepare for the ISR
+  pusha
 
-	# Prepare for the ISR
-	pusha
-	cli
-	cld
+  # Move the pagefaulted address back on top of the stack
+  # so we can read it from the handler
+  push 32(%esp)
 
-	# Do the call
-	push %eax
-	mov %cr2, %eax
-	push %eax
-	call handlePageFault
-	pop %eax
+  # Write the error code to the stack for the handler
+  mov %cr2, %eax
+  push %eax
 
-	# Pop the error code off the stack
-	pop %eax
+  # Do the pagefault
+  call handlePageFault
 
-	# Return
-	popa
-	iret
+  # Invalidate any entries in the TLB
+  invlpg 8(%esp)
+
+  # Pop the arguments to put the stack back the way it was
+  add $8, %esp
+
+  # Grab all of the stashed registers
+  popa
+
+  # Remove the faulted address that was pushed before the handler was called
+  add $4, %esp
+
+  iret
