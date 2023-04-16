@@ -4,7 +4,7 @@
 
 #include "io/format.h"
 
-void log(const char* file, int lineno, int level, const char* fstring, ...) {
+void log(const char *file, int lineno, int level, const char *fstring, ...) {
   va_list args;
   va_start(args, fstring);
 
@@ -16,7 +16,7 @@ void log(const char* file, int lineno, int level, const char* fstring, ...) {
   va_end(args);
 }
 
-void panic(const char* file, int lineno, const char* fstring, ...) {
+void panic(const char *file, int lineno, const char *fstring, ...) {
   va_list args;
   va_start(args, fstring);
 
@@ -28,11 +28,10 @@ void panic(const char* file, int lineno, const char* fstring, ...) {
   printf("----KERNEL PANIC----\n"
          "%s:%d\n"
          "%s\n",
-         file,
-         lineno,
-         buffer);
+         file, lineno, buffer);
   // TODO Dump kernel state
 
   // Hand forever
-  while(1);
+  while (1)
+    ;
 }

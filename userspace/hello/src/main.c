@@ -2,5 +2,6 @@
 
 void _start() {
   write("Hello world!\n");
-  while(1);
+  while (1)
+    ;
 }

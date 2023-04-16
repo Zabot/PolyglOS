@@ -1,6 +1,7 @@
 #include "bitmap.h"
 
-#define MASK(start, count) (((1 << (count - 1)) | ((1 << count - 1) - 1))) << start
+#define MASK(start, count)                                                     \
+  (((1 << (count - 1)) | ((1 << count - 1) - 1))) << start
 
 // Set length bits starting at start in map to value
 void setBitmap(WORD *map, int start, int length, int value) {

@@ -25,7 +25,8 @@ int exec(void *elf) {
   // Copy the elf sections into the address space
   struct ELFHeader *header = (struct ELFHeader *)elf;
   if (header->ident.magic != 0x464c457f) {
-    PANIC("Loading elf with invalid magic number 0x%x @ 0x%x", header->ident.magic, elf);
+    PANIC("Loading elf with invalid magic number 0x%x @ 0x%x",
+          header->ident.magic, elf);
   }
   INFO("Loading elf containing %d sections and %d segments...", header->shnum,
        header->phnum);

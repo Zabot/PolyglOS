@@ -4,12 +4,12 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "memory/frames.h"
-#include "io/log.h"
 #include "config.h"
+#include "io/log.h"
+#include "memory/frames.h"
 
 // Defined in paging_asm.s
-void switchAddressSpace(PageDirectory*);
+void switchAddressSpace(PageDirectory *);
 void activatePaging();
 
 PageDirectory *activePageDirectory;
@@ -39,6 +39,6 @@ int initPaging() {
 }
 
 int allocatePage(void *virtAddress) {
-    void *newFrame = getFrames(1);
-    mapPage(activePageDirectory, virtAddress, newFrame, PT_USER | PT_READ_WRITE);
+  void *newFrame = getFrames(1);
+  mapPage(activePageDirectory, virtAddress, newFrame, PT_USER | PT_READ_WRITE);
 }

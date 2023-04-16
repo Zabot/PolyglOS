@@ -1,11 +1,11 @@
 #include "memory/frames.h"
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
-#include "io/log.h"
 #include "bitmap.h"
 #include "config.h"
+#include "io/log.h"
 
 #define BIOS_MEMORY_TYPE_USABLE 1
 
@@ -29,9 +29,10 @@ void printMemory() {
   INFO("System memory map");
   INFO("Start:Length (Type)");
   INFO("----------------");
-  int mapLength = (memoryMapLength - (uint32_t)(&memoryMap))/24;
+  int mapLength = (memoryMapLength - (uint32_t)(&memoryMap)) / 24;
   for (int i = 0; i < mapLength; i++) {
-    INFO("%l:%l (%d)", memoryMap[i].baseAddress, memoryMap[i].baseAddress + memoryMap[i].length - 1, memoryMap[i].type);
+    INFO("%l:%l (%d)", memoryMap[i].baseAddress,
+         memoryMap[i].baseAddress + memoryMap[i].length - 1, memoryMap[i].type);
   }
 }
 
@@ -40,7 +41,7 @@ WORD *framesInUse;
 void initalizeFrameBitmap() {
   // Determine the number of memory frames
   uint64_t max = 0;
-  int mapLength = (memoryMapLength - (uint32_t)(&memoryMap))/24;
+  int mapLength = (memoryMapLength - (uint32_t)(&memoryMap)) / 24;
   // TODO Flatten the memory map list so we don't have to deal with overlapping
   //      regions elsewhere.
   for (int i = 0; i < mapLength; i++) {
@@ -59,7 +60,8 @@ void initalizeFrameBitmap() {
         // Set framesInUse to the very end of the last addressable region. Using
         // the end means we don't have to worry about clobbering anything the
         // BIOS may have set up in low memory.
-        framesInUse = (void *)(WORD)(memoryMap[i].baseAddress + memoryMap[i].length - bitmap_size);
+        framesInUse = (void *)(WORD)(memoryMap[i].baseAddress +
+                                     memoryMap[i].length - bitmap_size);
       }
     }
   }
@@ -72,8 +74,8 @@ void initalizeFrameBitmap() {
   setBitmap(framesInUse, 0, frames, 1);
   INFO("Marking free memory frames...");
   for (int i = 0; i < mapLength; i++) {
-    // Since regions may start and stop off of frame borders, we need to calculate
-    // the start and stop frame of each region.
+    // Since regions may start and stop off of frame borders, we need to
+    // calculate the start and stop frame of each region.
     int baseFrame = memoryMap[i].baseAddress / PAGE_SIZE;
     int endFrame = (memoryMap[i].baseAddress + memoryMap[i].length) / PAGE_SIZE;
     int length = endFrame - baseFrame;
@@ -88,8 +90,9 @@ void initalizeFrameBitmap() {
 
   // Allocate pages for memory bitmap
   int memoryMapStartFrame = (int)framesInUse / PAGE_SIZE;
-  int memoryMapFrames  = (bitmap_size / PAGE_SIZE + 1);
-  INFO("Reserving frames %x to %x for memory bitmap...", memoryMapStartFrame, memoryMapFrames);
+  int memoryMapFrames = (bitmap_size / PAGE_SIZE + 1);
+  INFO("Reserving frames %x to %x for memory bitmap...", memoryMapStartFrame,
+       memoryMapFrames);
   setBitmap(framesInUse, memoryMapStartFrame, memoryMapFrames, 1);
 
   // Allocate pages in use by the kernel

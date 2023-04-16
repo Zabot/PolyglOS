@@ -1,10 +1,10 @@
 #include "memory/heap.h"
 
-#include "memory/frames.h"
 #include "bitmap.h"
+#include "memory/frames.h"
 
-#include "io/log.h"
 #include "config.h"
+#include "io/log.h"
 
 int heapSize;
 WORD *heapBitmap;
@@ -13,7 +13,7 @@ WORD *heapBitmap;
 void *heap;
 
 // How many blocks of some size are needed to store size data
-size_t fillBlocks (size_t size, size_t blockSize) {
+size_t fillBlocks(size_t size, size_t blockSize) {
   return (size / blockSize) + (size % blockSize > 0);
 }
 
@@ -52,12 +52,12 @@ void *malloc(size_t size) {
   header->length = blocks;
 
   INFO("Allocated %d blocks starting at %d", header->length, index);
-  return (void*)header + sizeof(struct blockHeader);
+  return (void *)header + sizeof(struct blockHeader);
 }
 
 void free(void *ptr) {
   struct blockHeader *header = ptr - sizeof(struct blockHeader);
-  int index = ((void*)header - heap) / HEAP_BLOCK_SIZE;
+  int index = ((void *)header - heap) / HEAP_BLOCK_SIZE;
   setBitmap(heapBitmap, index, header->length, 0);
   INFO("Freed %d blocks starting at %d", header->length, index);
 }
