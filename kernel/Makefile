@@ -11,6 +11,7 @@ OBJS = src/kernel.o \
        src/memory/heap.o \
        src/memory/paging.o \
        src/memory/paging_asm.o \
+       src/memory/page_directory.o \
        src/interrupts/idt.o \
        src/interrupts/isr.o \
        src/interrupts/isr_pagefault.o \

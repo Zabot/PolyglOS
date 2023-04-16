@@ -26,7 +26,7 @@ activatePaging:
 	# Set the paging bit
 	mov %cr0, %eax
 	or $0x80000001, %eax
-	mov %eax, %cr0 # If my understanding is correct, at this point we should pagefault
+	mov %eax, %cr0
 
 	# Return as per sysV ABI
 	mov %ebp, %esp

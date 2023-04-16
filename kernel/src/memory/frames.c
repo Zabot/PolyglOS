@@ -93,7 +93,8 @@ void initalizeFrameBitmap() {
   setBitmap(framesInUse, memoryMapStartFrame, memoryMapFrames, 1);
 
   // Allocate pages in use by the kernel
-  setBitmap(framesInUse, 5, 3, 1);
+  // TODO Actually reserve the correct frames, right now we're just guessing
+  setBitmap(framesInUse, 0, 25, 1);
   setBitmap(framesInUse, 50, 3, 16);
 
   // The memory bitmap now resides in memory at the top of the address space
@@ -103,13 +104,16 @@ void initalizeFrameBitmap() {
 
 // Allocate count frames in the bit and return the address of the first frame
 void *getFrames(int count) {
-  INFO("Searching for %d contigous frames", count);
+  INFO("Searching for %d contigous frames in %x", count, framesInUse);
   int index = findContigous(framesInUse, count, frames);
   INFO("Found %d", index);
-  if (index < 0)
+  if (index < 0) {
+    PANIC("Ran out of free frames");
     return NULL;
+  }
 
   setBitmap(framesInUse, index, count, 1);
+  INFO("allocated frame: %x", index * PAGE_SIZE);
   return (void *)(index * PAGE_SIZE);
 }
 
