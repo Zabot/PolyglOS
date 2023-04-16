@@ -1,7 +1,11 @@
 all: polyglos.img
 
+.PHONY: userspace/hello/hello
+userspace/hello/hello:
+	$(MAKE) -C userspace/hello
+
 .PHONY: kernel/kernel.elf
-kernel/kernel.elf:
+kernel/kernel.elf: userspace/hello/hello
 	$(MAKE) -C kernel
 
 .PHONY: bootloader/bios/mbr.o
@@ -27,4 +31,6 @@ polyglos.img: bootloader/bios/mbr.o rootfs.img
 clean:
 	$(MAKE) -C bootloader/bios clean
 	$(MAKE) -C kernel clean
+	$(MAKE) -C userspace/hello clean
+	$(MAKE) -C userspace/libc clean
 	rm -f *.img

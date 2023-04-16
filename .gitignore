@@ -3,6 +3,10 @@
 
 # Ignore object files and disk images
 *.o
+*.a
 *.out
 *.elf
 *.img
+
+kernel/hello.ld
+userspace/hello/hello

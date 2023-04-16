@@ -31,6 +31,7 @@ kernel.elf: kernel.ld hello.ld ${OBJS}
 
 .PHONY: clean
 clean:
+	rm -f src/*.o
 	rm -f src/**/*.o
 	rm -f *.elf
 	rm -f hello.ld
