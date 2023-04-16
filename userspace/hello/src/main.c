@@ -1,6 +1,6 @@
-#include <syscall.h>
+#include <syscalls.h>
 
 void _start() {
-  syscall(0xDEADBEEF);
+  write("Hello world!\n");
   while(1);
 }

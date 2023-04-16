@@ -1,12 +1,11 @@
-OBJS = src/libc.o \
-			 src/do_syscall.o
+OBJS = src/do_syscall.o src/syscalls.o
 
 CFLAGS = -ffreestanding -Iinclude
 
 libc.a: ${OBJS}
-	${LD} -o $@ ${OBJS} -shared -static
+	${AR} -crs $@ ${OBJS}
 
 .PHONY: clean
 clean:
-	rm -f src/**/*.o
+	rm -f **/*.o
 	rm -f *.a
